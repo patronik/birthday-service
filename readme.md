@@ -48,7 +48,7 @@ The following REST API endpoints are available.
 
 `GET /person/`
 
-    curl -i -H 'Accept: application/json' http://localhost:8000/person
+    curl -H 'Accept: application/json' http://localhost:8000/person
 
 ### Response
 
@@ -67,7 +67,7 @@ The following REST API endpoints are available.
 
 `POST /person/`
 
-    curl -i -H 'Accept: application/json' -d "name=Stepan&birthdate=10/05/2005&timezone=Europe/Kiev" -X POST http://localhost:8000/person
+    curl -H 'Accept: application/json' -d "name=Stepan&birthdate=10/05/2005&timezone=Europe/Kiev" -X POST http://localhost:8000/person
 
 ### Response
 
