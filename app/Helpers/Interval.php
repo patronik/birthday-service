@@ -12,12 +12,12 @@ class Interval
     public function collectInfo(\DateTime $birthDateDateTime, string $timezone, \DateTime $dateTimeFrom = null) : BirthdayInfo
     {
         $birthdayInfo = new BirthdayInfo();
-        $birthdayInfo->setBirthDate($birthDateDateTime);
 
         $timezone = new \DateTimeZone($timezone);
         $nowDatetime = new \DateTime('now', $timezone);
 
         $birthDateDateTime->setTimezone($timezone);
+        $birthdayInfo->setBirthDate($birthDateDateTime);
 
         $intervalToNow = $birthDateDateTime->diff($nowDatetime);
 

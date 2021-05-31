@@ -51,8 +51,7 @@ $router->get('/person', function (Request $request, Client $mongoClient, Interva
         }
         $result[] = $item;
     }
-    //return response()->json($result);
-    return response(json_encode($result, JSON_PRETTY_PRINT));
+    return response()->json($result);
 });
 
 /**
@@ -65,20 +64,22 @@ $router->post('/person', function (Request $request, Client $mongoClient) use ($
         return response()->json(['status' => 'err', 'message' => 'Required parameters are missing'], 400);
     }
 
-    $birthTimestamp = strtotime($params['birthdate']);
-
-    if (!$birthTimestamp) {
-        return response()->json(['status' => 'err', 'message' => 'Invalid birth date'], 400);
-    }
-
     if (!in_array($params['timezone'], DateTimeZone::listIdentifiers())) {
         return response()->json(['status' => 'err', 'message' => 'Invalid timezone'], 400);
     }
 
+    try {
+        $birthDatetime = new \DateTime($params['birthdate'], new \DateTimeZone($params['timezone']));
+    } catch (Exception $e) {
+        return response()->json(['status' => 'err', 'message' => 'Invalid birth date'], 400);
+    }
+
+    $birthDatetime->setTimezone(new DateTimeZone('UTC'));
+
     $mongoClient->birthday->person->insertOne(
         [
             'name' => $params['name'],
-            'birthdate' => new UTCDateTime($birthTimestamp * 1000),
+            'birthdate' => new UTCDateTime($birthDatetime->getTimestamp() * 1000),
             'timezone' => $params['timezone']
         ]
     );
