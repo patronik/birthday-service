@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
+use MongoDB\Client;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class MongoServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -13,6 +14,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(Client::class, function ($app) {
+            return new Client("mongodb://localhost:27017");
+        });
     }
 }

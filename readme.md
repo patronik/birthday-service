@@ -1,21 +1,39 @@
-# Lumen PHP Framework
+# Birthday service
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/lumen-framework/v/unstable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+This service provides an information about upcoming people's birthdays and display how much time is left to celebrate today's birthdays.
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
 
-## Official Documentation
+## Installation
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+### Installation of MongoDB 
+Please follow instructions for you operating system on this page: https://docs.mongodb.com/manual/installation/
 
-## Security Vulnerabilities
+### Installation of MongoDB PHP driver
+First install driver on your system using pecl. 
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+```
+sudo pecl install mongodb
+```
+If you are using Windows, please follow this link: https://www.php.net/manual/en/mongodb.installation.windows.php
 
-## License
+Finally, add the following line to your php.ini file:
+```
+extension=mongodb.so
+```
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Installation of PHP Composer dependencies
+Execute the following command to install all required php composer packages
+```
+composer install
+```
+
+## Run the service
+Execute this command from you project root directory
+```
+php -S localhost:8000 -t public
+```
+
+## Run the tests
+```
+./vendor/bin/phpunit tests
+```
