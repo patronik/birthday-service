@@ -37,3 +37,45 @@ php -S localhost:8000 -t public
 ```
 ./vendor/bin/phpunit tests
 ```
+
+## REST API
+
+The following REST API endpoints are available.
+
+### Get list of all entries
+
+### Request
+
+`GET /person/`
+
+    curl -i -H 'Accept: application/json' http://localhost:8000/person
+
+### Response
+
+    HTTP/1.1 200 OK
+    Date: Mon, 31 May 2021 16:38:12 GMT
+    Server: Apache/2.4.29 (Ubuntu)
+    Cache-Control: no-cache, private
+    Content-Length: 2
+    Content-Type: application/json
+
+    []
+
+### Create a new entry
+
+### Request
+
+`POST /person/`
+
+    curl -i -H 'Accept: application/json' -d "name=Stepan&birthdate=10/05/2005&timezone=Europe/Kiev" -X POST http://localhost:8000/person
+
+### Response
+
+     HTTP/1.1 201 Created
+     Date: Mon, 31 May 2021 16:41:33 GMT
+     Server: Apache/2.4.29 (Ubuntu)
+     Cache-Control: no-cache, private
+     Content-Length: 54
+     Content-Type: application/json
+
+    {"status":"ok","message":"New entry has been created"}

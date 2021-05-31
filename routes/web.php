@@ -68,10 +68,16 @@ $router->post('/person', function (Request $request, Client $mongoClient) use ($
         return response()->json(['status' => 'err', 'message' => 'Invalid timezone'], 400);
     }
 
+    $personTimezone = new \DateTimeZone($params['timezone']);
     try {
-        $birthDatetime = new \DateTime($params['birthdate'], new \DateTimeZone($params['timezone']));
+        $birthDatetime = new \DateTime($params['birthdate'], $personTimezone);
     } catch (Exception $e) {
         return response()->json(['status' => 'err', 'message' => 'Invalid birth date'], 400);
+    }
+
+    $nowDatetime = new \DateTime('now', $personTimezone);
+    if ($birthDatetime > $nowDatetime) {
+        return response()->json(['status' => 'err', 'message' => 'Birth date should be in the past'], 400);
     }
 
     $birthDatetime->setTimezone(new DateTimeZone('UTC'));
