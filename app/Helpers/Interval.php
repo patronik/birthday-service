@@ -14,12 +14,13 @@ class Interval
         $birthdayInfo = new BirthdayInfo();
 
         $timezone = new \DateTimeZone($timezone);
-        $nowDatetime = new \DateTime('now', $timezone);
+        $dateTimeFrom = $dateTimeFrom ?? new \DateTime('now');
+        $dateTimeFrom->setTimezone($timezone);
 
         $birthDateDateTime->setTimezone($timezone);
         $birthdayInfo->setBirthDate($birthDateDateTime);
 
-        $intervalToNow = $birthDateDateTime->diff($nowDatetime);
+        $intervalToNow = $birthDateDateTime->diff($dateTimeFrom);
 
         $birthdayInfo->setCurrentAge((int) $intervalToNow->format('%y'));
 
@@ -27,19 +28,13 @@ class Interval
             new \DateInterval('P' . $birthdayInfo->getCurrentAge() . 'Y')
         );
 
-        $intervalFromLastBirthdayToNow = $lastBirthdayDatetime->diff($nowDatetime);
+        $intervalFromLastBirthdayToNow = $lastBirthdayDatetime->diff($dateTimeFrom);
 
         $birthdayInfo->setIsBirthdayToday((int)$intervalFromLastBirthdayToNow->format('%days') == 0);
 
         if ($birthdayInfo->getIsBirthdayToday()) {
             $tomorrowDatetime = new \DateTime('tomorrow', $timezone);
-            $birthdayInfo->setIntervalToEndOfDay($nowDatetime->diff($tomorrowDatetime));
-        }
-
-        if ($dateTimeFrom !== null) {
-            $dateTimeFrom->setTimezone($timezone);
-        } else {
-            $dateTimeFrom = new \DateTime('now', $timezone);
+            $birthdayInfo->setIntervalToEndOfDay($dateTimeFrom->diff($tomorrowDatetime));
         }
 
         $nextBirthdayDatetime = (clone $birthDateDateTime)->add(

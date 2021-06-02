@@ -64,7 +64,7 @@ class BirthdayTest extends TestCase
             $nextBirthdayDatetime->format('Y-m-d')
         );
 
-        /** @var BirthdayInfo $birthdayInfoFromNow */
+        /** @var BirthdayInfo $birthdayInfoFromTomorrow */
         $birthdayInfoFromTomorrow = $intervalHelper->collectInfo(
             $birthDateDatetime, 'Europe/Kiev', (clone $nowDatetime)->modify('+1 day'));
 
@@ -72,5 +72,30 @@ class BirthdayTest extends TestCase
             (int) $birthdayInfoFromTomorrow->getIntervalToNextBirthday()->format('%a') <
             (int) $birthdayInfoFromNow->getIntervalToNextBirthday()->format('%a')
         );
+    }
+
+    public function testMultipleDates()
+    {
+        $testData = [
+            ['birth_date' => '05/10/1990', 'date_from' => '01/01/2021', 'next_birthday' => '05/10/2021'],
+            ['birth_date' => '01/11/1980', 'date_from' => '01/01/2021', 'next_birthday' => '01/11/2021'],
+            ['birth_date' => '07/25/1993', 'date_from' => '01/01/2021', 'next_birthday' => '07/25/2021'],
+            ['birth_date' => '03/21/1999', 'date_from' => '01/01/2021', 'next_birthday' => '03/21/2021'],
+            ['birth_date' => '02/28/2004', 'date_from' => '01/01/2021', 'next_birthday' => '02/28/2021'],
+            ['birth_date' => '05/12/1990', 'date_from' => '01/01/2021', 'next_birthday' => '05/12/2021'],
+        ];
+
+        $intervalHelper = new Interval();
+        foreach ($testData as $testItem) {
+            $dateFrom = new \DateTime($testItem['date_from']);
+            /** @var BirthdayInfo $birthdayInfo */
+            $birthdayInfo = $intervalHelper->collectInfo(
+                new \DateTime($testItem['birth_date']), 'Europe/Kiev', $dateFrom
+            );
+            $calculatedBirthDate = (clone $dateFrom)->add($birthdayInfo->getIntervalToNextBirthday());
+            $this->assertEquals(
+                $calculatedBirthDate->format('m/d/Y'), $testItem['next_birthday']
+            );
+        }
     }
 }
