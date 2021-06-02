@@ -33,8 +33,9 @@ class Interval
         $birthdayInfo->setIsBirthdayToday((int)$intervalFromLastBirthdayToNow->format('%days') == 0);
 
         if ($birthdayInfo->getIsBirthdayToday()) {
-            $tomorrowDatetime = new \DateTime('tomorrow', $timezone);
-            $birthdayInfo->setIntervalToEndOfDay($dateTimeFrom->diff($tomorrowDatetime));
+            $birthdayInfo->setIntervalToEndOfDay(
+                (new \Datetime('now', $timezone))->diff(new \DateTime('tomorrow', $timezone))
+            );
         }
 
         $nextBirthdayDatetime = (clone $birthDateDateTime)->add(

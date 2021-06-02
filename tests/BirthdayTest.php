@@ -83,6 +83,7 @@ class BirthdayTest extends TestCase
             ['birth_date' => '03/21/1999', 'date_from' => '01/01/2021', 'next_birthday' => '03/21/2021'],
             ['birth_date' => '02/28/2004', 'date_from' => '01/01/2021', 'next_birthday' => '02/28/2021'],
             ['birth_date' => '05/12/1990', 'date_from' => '01/01/2021', 'next_birthday' => '05/12/2021'],
+            ['birth_date' => '01/01/1990', 'date_from' => '01/01/2021', 'next_birthday' => '01/01/2022'],
         ];
 
         $intervalHelper = new Interval();
@@ -92,6 +93,7 @@ class BirthdayTest extends TestCase
             $birthdayInfo = $intervalHelper->collectInfo(
                 new \DateTime($testItem['birth_date']), 'Europe/Kiev', $dateFrom
             );
+
             $calculatedBirthDate = (clone $dateFrom)->add($birthdayInfo->getIntervalToNextBirthday());
             $this->assertEquals(
                 $calculatedBirthDate->format('m/d/Y'), $testItem['next_birthday']
