@@ -30,7 +30,7 @@ class Interval
 
         $intervalFromLastBirthdayToNow = $lastBirthdayDatetime->diff($dateTimeFrom);
 
-        $birthdayInfo->setIsBirthdayToday((int)$intervalFromLastBirthdayToNow->format('%days') == 0);
+        $birthdayInfo->setIsBirthdayToday((int)$intervalFromLastBirthdayToNow->format('%a') == 0);
 
         if ($birthdayInfo->getIsBirthdayToday()) {
             $birthdayInfo->setIntervalToEndOfDay(
